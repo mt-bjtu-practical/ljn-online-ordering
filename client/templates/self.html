@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Profile</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f3f3f3;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.profile-container {
+			background-color: white;
+			border-radius: 8px;
+			padding: 20px;
+			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+			width: 300px;
+			text-align: center;
+		}
+
+		.profile-image {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			margin: 0 auto 20px;
+			background-color: #ccc;
+		}
+
+		.profile-image img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			margin: 0 auto 20px;
+			background-color: #ccc;
+		}
+
+		.profile-data {
+			margin-bottom: 15px;
+		}
+
+		.profile-data label {
+			font-size: 18px;
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			display: block;
+			font-weight: bold;
+			margin-bottom: 5px;
+		}
+
+		.profile-data ID {
+			font-size: 16px;
+			font-family: 'Courier New', Courier, monospace;
+			display: block;
+		}
+
+		.profile-data num {
+			font-size: 16px;
+			font-family: 'Courier New', Courier, monospace;
+			display: block;
+		}
+
+		.history-orders {
+			text-align: left;
+			margin-top: 20px;
+		}
+
+		.order-card {
+			background-color: #f9f9f9;
+			border-radius: 8px;
+			padding: 10px;
+			margin-bottom: 10px;
+			box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		.order-card h3{
+			display: inline;
+		}
+
+		.order-card div{
+			display: inline;
+		}
+		
+		.order-card a ::after a{
+			margin-top: 10px;
+		}
+
+		.form-group {
+			margin-bottom: 15px;
+		}
+
+		.form-group input {
+			width: calc(100% - 23px);
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 8px;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div class="profile-container">
+		<div class="profile-image">
+			<img src="../static/avatar.png" width="100%"/>
+		</div>
+		<div class="profile-data">
+			<label>{{ content["name"] }}</label>
+			<ID>(ID: {{ content["userid"] }})</ID>
+			<num>{{ content["phone"] }}</num>
+		</div>
+		<div class="history-orders">
+			<h2>历史订单</h2>
+			{% if order|length == 0 %}
+				<p style="color: darkgrey;">暂无历史订单</p>
+			{% else %}
+				{% for order in content["orders"] %}
+				<div class="order-card">
+					<div><h3>{{order["time"]}}</h3></div>
+					<div style="float: right;"><h3>{{order["price"]}}元</h3></div>
+					{% for good in order %}
+						<a>{{good["name"]}}</a>
+						<a style="float: right;">...{{good["price"]}}</a>
+					{% endfor %}
+				</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<form action="/logout" method="post">
+			<div class="form-group">
+				<input type="submit" value="退出登录">
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

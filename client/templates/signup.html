@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{"用户注册" if content["type"]=="B" else "商家注册"}}</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .login-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+
+  .login-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group input {
+    width: calc(100% - 23px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .form-group input::placeholder{
+	width: fit-content;
+  }
+
+  .form-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .additional-links {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .additional-links button {
+    margin: 0 10px;
+    color: #007bff;
+    text-decoration: none;
+	border: 0px;
+	background-color: #00000000;
+  }
+</style>
+
+</head>
+<body>
+
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% for category, message in messages %}
+			{% if category == 'signResult' %}
+					<script>
+						alert("{{ message }}");
+					</script>
+			{% endif %}
+		{% endfor %}
+	{% endwith %}
+
+<div class="login-container">
+  <h1 id="h1">{{"用户注册" if content["type"]=="B" else "商家注册"}}</h1>
+  <form action="/signingup" method="post">
+	  <input type="hidden" id="type" name="type" value="{{content["type"]}}">
+      <div class="form-group">
+        <input type="text" id="name" name="name" placeholder="{{"店名" if content["type"]=="S" else "昵称"}}"" required>
+      </div>
+      <div class="form-group">
+        <input type="password" id="pwd" name="pwd" placeholder="密码" required>
+      </div>
+      <div class="form-group">
+  		<input type="number" id="phone" name="phone" placeholder="电话" required>
+	  </div>
+      <div class="form-group">
+        <button type="submit">注册</button>
+      </div>
+  </form>
+  <div class="additional-links" align="center">
+	<button id="back">返回</button>
+	<button id="changeType">{{"商家版" if content["type"]=="B" else "用户版"}}</button>
+	<script>
+		document.getElementById("back").addEventListener("click",function(){
+			const val = document.getElementById("type").value;
+			window.location.href=(val=="B"? "/":"/storeLogin")
+		});
+		document.getElementById("changeType").addEventListener("click",function(){
+			const val = document.getElementById("type").value;
+			window.location.href=(val=="B"? "/storeSignup":"/signup")
+		});
+	</script>
+  </div>
+</div>
+
+</body>
+</html>
+
